@@ -1,0 +1,120 @@
+./scripts/setup_database.sh: line 1: a#!/bin/bash: No such file or directory
+================================================
+Database Setup
+================================================
+
+[1/6] Creating Cloud SQL instance...
+Creating Cloud SQL instance for POSTGRES_17...
+............done.
+Created [https://sqladmin.googleapis.com/sql/v1beta4/projects/agri-sense-496402/instances/agri-sense-db].
+NAME           DATABASE_VERSION  LOCATION       TIER              PRIMARY_ADDRESS  PRIVATE_ADDRESS  STATUS
+agri-sense-db  POSTGRES_17       us-central1-a  db-custom-1-3840  35.193.75.228    -                RUNNABLE
+      ✓ Instance created
+[2/5] Verifying instance state...
+      ✓ Instance is RUNNABLE
+
+[3/6] Granting Vertex AI permissions...
+      ✓ Permissions granted
+[4/6] Creating database...
+Creating Cloud SQL database...
+.done.
+Created database [agri_sense_db].
+instance: agri-sense-db
+name: agri_sense_db
+project: agri-sense-496402
+      ✓ Database 'agri_sense_db' ready
+
+[5/6] Seeding database and generating embeddings...
+C:\Users\willi\OneDrive\Documents\agri-sense\.venv\Lib\site-packages\google\auth\_default.py:114: UserWarning: Your application has authenticated using end user credentials from Google Cloud SDK without a quota project. You might receive a "quota exceeded" or "API not enabled" error. See the following page for troubleshooting: https://cloud.google.com/docs/authentication/adc-troubleshooting/user-creds. 
+  warnings.warn(_CLOUD_SDK_CREDENTIALS_WARNING)
+['agri-sense-496402:us-central1:restaurant-db']: An error occurred while performing refresh. Scheduling another refresh attempt immediately
+Traceback (most recent call last):
+  File "C:\Users\willi\OneDrive\Documents\agri-sense\.venv\Lib\site-packages\google\cloud\sql\connector\instance.py", line 162, in _refresh_task
+    refresh_data = await refresh_task
+                   ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\willi\OneDrive\Documents\agri-sense\.venv\Lib\site-packages\google\cloud\sql\connector\instance.py", line 117, in _perform_refresh
+    connection_info = await self._client.get_connection_info(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\willi\OneDrive\Documents\agri-sense\.venv\Lib\site-packages\google\cloud\sql\connector\client.py", line 297, in get_connection_info
+    metadata = await metadata_task
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\willi\OneDrive\Documents\agri-sense\.venv\Lib\site-packages\google\cloud\sql\connector\client.py", line 141, in _get_metadata
+    resp.raise_for_status()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\willi\OneDrive\Documents\agri-sense\.venv\Lib\site-packages\aiohttp\client_reqrep.py", line 636, in raise_for_status
+    raise ClientResponseError(
+    ...<5 lines>...
+    )
+aiohttp.client_exceptions.ClientResponseError: 404, message='The Cloud SQL instance does not exist.', url='https://sqladmin.googleapis.com/sql/v1beta4/projects/agri-sense-496402/instances/restaurant-db/connectSettings'
+Traceback (most recent call last):
+  File "C:\Users\willi\OneDrive\Documents\agri-sense\scripts\seed_db.py", line 217, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\willi\OneDrive\Documents\agri-sense\scripts\seed_db.py", line 201, in main
+    conn = get_connection()
+  File "C:\Users\willi\OneDrive\Documents\agri-sense\scripts\seed_db.py", line 19, in get_connection
+    conn = connector.connect(
+        instance_connection,
+    ...<3 lines>...
+        db="restaurant_db",
+    )
+  File "C:\Users\willi\OneDrive\Documents\agri-sense\.venv\Lib\site-packages\google\cloud\sql\connector\connector.py", line 259, in connect
+    return connect_future.result()
+           ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\willi\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\_base.py", line 450, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\willi\AppData\Local\Python\pythoncore-3.14-64\Lib\concurrent\futures\_base.py", line 395, in __get_result
+    raise self._exception
+  File "C:\Users\willi\OneDrive\Documents\agri-sense\.venv\Lib\site-packages\google\cloud\sql\connector\connector.py", line 384, in connect_async
+    conn_info = await monitored_cache.connect_info()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\willi\OneDrive\Documents\agri-sense\.venv\Lib\site-packages\google\cloud\sql\connector\monitored_cache.py", line 103, in connect_info
+    return await self.cache.connect_info()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\willi\OneDrive\Documents\agri-sense\.venv\Lib\site-packages\google\cloud\sql\connector\instance.py", line 210, in connect_info
+    return await self._current
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\willi\OneDrive\Documents\agri-sense\.venv\Lib\site-packages\google\cloud\sql\connector\instance.py", line 162, in _refresh_task
+    refresh_data = await refresh_task
+                   ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\willi\OneDrive\Documents\agri-sense\.venv\Lib\site-packages\google\cloud\sql\connector\instance.py", line 117, in _perform_refresh
+    connection_info = await self._client.get_connection_info(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\willi\OneDrive\Documents\agri-sense\.venv\Lib\site-packages\google\cloud\sql\connector\client.py", line 297, in get_connection_info
+    metadata = await metadata_task
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\willi\OneDrive\Documents\agri-sense\.venv\Lib\site-packages\google\cloud\sql\connector\client.py", line 141, in _get_metadata
+    resp.raise_for_status()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\willi\OneDrive\Documents\agri-sense\.venv\Lib\site-packages\aiohttp\client_reqrep.py", line 636, in raise_for_status
+    raise ClientResponseError(
+    ...<5 lines>...
+    )
+aiohttp.client_exceptions.ClientResponseError: 404, message='The Cloud SQL instance does not exist.', url='https://sqladmin.googleapis.com/sql/v1beta4/projects/agri-sense-496402/instances/restaurant-db/connectSettings'
+Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x0000026144E4F0E0>
+Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x0000026144F79850>, 185568.9596174), (<aiohttp.client_proto.ResponseHandler object at 0x0000026144EB1FF0>, 185568.9597837)])']
+connector: <aiohttp.connector.TCPConnector object at 0x0000026144E4D400>
+      ✓ Database seeded with embeddings
+[6/6] Running MCP Toolbox...
+2026-05-15T19:22:25.2903367+07:00 ERROR "unable to parse config file at \"tools.yaml\": error unmarshaling tool: unable to parse tool \"query_agronomy_knowledge\" as type \"postgres-sql\": unable to parse as \"string\": Key: 'CommonParameter.Desc' Error:Field validation for 'Desc' failed on the 'required' tag" 
+Error: unable to parse config file at "tools.yaml": error unmarshaling tool: unable to parse tool "query_agronomy_knowledge" as type "postgres-sql": unable to parse as "string": Key: 'CommonParameter.Desc' Error:Field validation for 'Desc' failed on the 'required' tag
+      ✓ MCP Toolbox running
+
+================================================
+Setup complete!
+================================================
+
+Instance:  agri-sense-db
+Database:  agri_sense_db
+Toolbox:   http://127.0.0.1:5000 (PID: )
+
+Monitor Toolbox: tail -f toolbox_server.log

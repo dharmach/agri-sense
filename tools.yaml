@@ -1,0 +1,55 @@
+kind: source
+name: agri-sense-db
+type: cloud-sql-postgres
+project: ${GOOGLE_CLOUD_PROJECT}
+region: ${REGION}
+instance: agri-sense-db
+database: agri_sense_db
+user: postgres
+password: ${DB_PASSWORD}
+
+---
+
+kind: tool
+name: query_agronomy_knowledge
+type: postgres-sql
+source: agri-sense-db
+description: >
+  Mencari pengetahuan teknis penyakit atau hara berdasarkan observasi AI.
+  Gunakan ini untuk mencari solusi dari gejala yang Anda (AI) lihat di foto.
+statement: |
+  SELECT disease_name, treatment, organic_alt, risk_level 
+  FROM disease_reference_library 
+  WHERE visual_symptoms ILIKE '%' || $1 || '%' OR disease_name ILIKE '%' || $1 || '%'
+parameters:
+  - name: observation
+    type: string
+    description: Gejala visual atau nama penyakit.
+
+---
+kind: tool
+name: get_ndvi_trend
+type: postgres-sql
+source: agri-sense-db
+description: Mengambil data tren kesehatan vegetasi (NDVI) untuk lahan spesifik.
+statement: |
+  SELECT observation_date, ndvi_value FROM agricultural_ndvi 
+  WHERE field_id = $1 ORDER BY observation_date DESC LIMIT 7
+parameters:
+  - name: field_id
+    type: string
+    description: ID atau nama lahan.
+
+---
+kind: tool
+name: match_voice_to_remedy
+type: postgres-sql
+source: agri-sense-db
+description: Mencari instruksi dosis berdasarkan kata kunci suara petani.
+statement: |
+  SELECT remedy_name, dosage, method FROM treatment_catalog 
+  WHERE keywords ILIKE '%' || $1 || '%'
+parameters:
+  - name: keyword
+    type: string
+    description: Kata kunci dari ucapan petani.

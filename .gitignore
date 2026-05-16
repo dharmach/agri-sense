@@ -1,0 +1,20 @@
+# Environment
+.env
+setup_verify_trial_project.sh
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+
+# Toolbox binary
+toolbox
+
